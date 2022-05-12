@@ -2,7 +2,8 @@
 
 .reviews {
   @include shadow-block;
-  @include set-size(100%, 60vh);
+  //@include set-size(100%, 60vh);
+  max-height: 60vh;
   margin-bottom: 2vh;
 
   &-inner {
@@ -17,13 +18,17 @@
     &__title {
       padding: 1vh 1.5vh;
       font-size: 2.5vh;
-      color: $textColorDefault;
+      @include themify($themes) {
+        color: themed('textColorDefault');
+      }
     }
 
     &-sort {
       margin: 0 1.5vh;
       font-size: 1.5vh;
-      color: $textColorDefault;
+      @include themify($themes) {
+        color: themed('textColorDefault');
+      }
 
       &__button {
         margin-left: 2vh;
@@ -45,7 +50,14 @@
   &-body {
     overflow: scroll;
     overflow-x: hidden;
-    height: 50vh;
+    @include scrollbar;
+
+    //height: 50vh;
+    max-height: 50vh;
+
+    &::-webkit-scrollbar {
+      background-color: green;
+    }
 
     &-inner {
 
@@ -75,7 +87,9 @@ input[type='radio']:checked:after {
   top: -2px;
   left: -1px;
   position: relative;
-  background-color: $mainColor;
+  @include themify($themes) {
+    background-color: themed('mainColor');
+  }
   content: '';
   display: inline-block;
   visibility: visible;

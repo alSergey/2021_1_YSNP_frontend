@@ -18,8 +18,9 @@ import {checkIsAuth} from '../modules/checkAuth';
 import {UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
-
 import {frontUrls} from '../modules/urls/frontUrls';
+import {customLocalStorage} from '../modules/storage/customLocalStorage';
+
 import {sentryManager} from '../modules/sentry';
 
 /***
@@ -65,7 +66,9 @@ export class UserProfilePresenter extends BasePresenter {
             return;
         }
 
-        checkIsAuth();
+        if (!checkIsAuth()) {
+            return;
+        }
 
         this.__view.render(this.__makeContext());
 
@@ -200,8 +203,34 @@ export class UserProfilePresenter extends BasePresenter {
             },
             hideError: {
                 open: hideError.bind(this)
+            },
+            setLightTheme: {
+                open: this.__setLightTheme.bind(this)
+            },
+            setDarkTheme: {
+                open: this.__setDarkTheme.bind(this)
             }
         };
+    }
+
+    /***
+     * Set light theme
+     * @private
+     */
+    __setLightTheme() {
+        customLocalStorage.set('theme', 'light');
+        const app = document.getElementsByTagName('html').item(0);
+        app.className = 'theme-light';
+    }
+
+    /***
+     * Set light theme
+     * @private
+     */
+    __setDarkTheme() {
+        customLocalStorage.set('theme', 'dark');
+        const app = document.getElementsByTagName('html').item(0);
+        app.className = 'theme-dark';
     }
 
     /***
@@ -243,7 +272,7 @@ export class UserProfilePresenter extends BasePresenter {
 
                     showBackendError(errorPasswordID, err.message);
 
-                sentryManager.captureException(err);
+                    sentryManager.captureException(err);
                     console.log(err.message);
 
                     this.checkOfflineStatus(err);

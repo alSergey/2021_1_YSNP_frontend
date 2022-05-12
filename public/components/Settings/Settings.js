@@ -5,6 +5,7 @@ import {ChangePassword} from './ChangePassword/ChangePassword.js';
 import {parseTelMask} from '../../modules/layout/mask';
 
 import {sentryManager} from '../../modules/sentry';
+import {customLocalStorage} from '../../modules/storage/customLocalStorage';
 
 /***
  * Settings box on profile page
@@ -27,6 +28,9 @@ export class Settings {
         document
             .getElementById('file-upload')
             .addEventListener(this.__context.listeners.validateChange.type, this.__context.listeners.validateChange.listener);
+        document
+            .getElementById('change-theme')
+            .addEventListener(this.__context.listeners.settingsClick.type, this.__context.listeners.settingsClick.listener);
         document
             .getElementById('settings-components')
             .addEventListener(this.__context.listeners.validateInput.type, this.__context.listeners.validateInput.listener);
@@ -58,6 +62,9 @@ export class Settings {
      * @this {Settings}
      */
     removeListeners() {
+        document
+            .getElementById('change-theme')
+            .removeEventListener(this.__context.listeners.settingsClick.type, this.__context.listeners.settingsClick.listener);
         document
             .getElementById('file-upload')
             .removeEventListener(this.__context.listeners.validateChange.type, this.__context.listeners.validateChange.listener);
@@ -206,6 +213,7 @@ export class Settings {
         surname.removeAttribute('readonly');
         name.removeAttribute('readonly');
         gender.removeAttribute('disabled');
+        gender.removeAttribute('readonly');
         birthday.removeAttribute('readonly');
         mail.removeAttribute('readonly');
 
@@ -249,6 +257,7 @@ export class Settings {
             name.parentNode.removeChild(name.nextSibling);
         }
         gender.setAttribute('disabled', 'true');
+        gender.setAttribute('readonly', 'true');
         birthday.setAttribute('readonly', 'true');
         if (document.getElementById(this.getInputErrorId(birthday))) {
             birthday.parentNode.removeChild(birthday.nextSibling);
@@ -334,6 +343,8 @@ export class Settings {
             const chPass = new ChangePassword(document.getElementById('settings'));
             chPass.render();
 
+            const theme = customLocalStorage.get('theme');
+            document.getElementById(`${theme}-theme`).checked = true;
             this.disableEditing();
             this.__addListeners();
         } catch (err) {

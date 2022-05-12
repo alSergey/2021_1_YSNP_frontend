@@ -10,7 +10,7 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 module.exports = {
     entry: './public/main.js',
     output: {
-        filename: '[name].[contenthash:8].js',
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
@@ -38,7 +38,7 @@ module.exports = {
             template: './public/index.html'
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash:8].css'
+            filename: 'bundle.css'
         }),
         new CopyWebpackPlugin({
             patterns: [
@@ -61,17 +61,25 @@ module.exports = {
                 {
                     from: 'public/fonts/',
                     to: 'fonts/'
+                },
+                {
+                    from: 'yandex_0427d283707135aa.html',
+                    to: ''
+                },
+                {
+                    from: 'google1988aabd207fda9e.html',
+                    to: ''
                 }
             ]
         }),
-        new SentryWebpackPlugin({
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-            org: 'ysnp',
-            project: 'ysnp',
-
-            include: './dist',
-            ignore: ['node_modules', 'webpack.config.js', 'all.js', 'sw.js']
-        })
+        // new SentryWebpackPlugin({
+        //     authToken: process.env.SENTRY_AUTH_TOKEN,
+        //     org: 'ysnp',
+        //     project: 'ysnp',
+        //
+        //     include: './dist',
+        //     ignore: ['node_modules', 'webpack.config.js', 'all.js', 'sw.js']
+        // })
     ],
     module: {
         rules: [

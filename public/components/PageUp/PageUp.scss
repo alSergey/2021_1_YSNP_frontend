@@ -10,8 +10,10 @@
   transition-property: color, background-color;
 
   &:hover {
-    color: $linkColor;
-    background-color: #ECECEC;
+    @include themify($themes) {
+      color: themed('linkColor');
+      background-color: themed('pageup');
+    }
   }
 
   @media screen and (max-width: $breakDesktop) {
@@ -50,7 +52,9 @@
 
     &__img {
       @include set-size(2vh, 2vh);
-
+      @include themify($themes) {
+        filter: themed('svgFilter');
+      }
       margin-right: 0.5vh;
     }
 

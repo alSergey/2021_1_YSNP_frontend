@@ -27,13 +27,17 @@
     }
 
     &-inner {
+      word-break: break-word;
     }
 
     &__text {
       font-family: Open Sans, sans-serif;
       line-height: 3vh;
-      color: #000000;
       white-space: pre-line;
+      
+      @include themify($themes) {
+        color: themed('textColorDefault');
+      }
     }
   }
 }

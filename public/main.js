@@ -43,18 +43,33 @@ import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
 import {SellerAdPresenter} from './presenters/SellerAdPresenter';
 import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
 
+import {customLocalStorage} from './modules/storage/customLocalStorage';
+
 /***
  * Register service worker
  *  */
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js', {scope: '/'})
-        .then(() => {
-            console.log('Service Worker registered.');
-        }).catch((error) => {
-        sentryManager.captureException(error);
-        console.log(`Error while register service worker:${error}`);
-    });
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('./sw.js', {scope: '/'})
+//         .then(() => {
+//             console.log('Service Worker registered.');
+//         }).catch((error) => {
+//         sentryManager.captureException(error);
+//         console.log(`Error while register service worker:${error}`);
+//     });
+// }
+
+const html = document.getElementsByTagName('html').item(0);
+let theme = customLocalStorage.get('theme');
+if (theme === null) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        customLocalStorage.set('theme', 'dark');
+        theme = 'dark';
+    } else {
+        customLocalStorage.set('theme', 'light');
+        theme = 'light';
+    }
 }
+html.className = `theme-${theme}`;
 
 try {
     Notification.requestPermission()
@@ -68,7 +83,6 @@ try {
 } catch (err) {
     console.log(err.message);
 }
-
 
 const app = document.getElementById('app');
 
