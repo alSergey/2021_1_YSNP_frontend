@@ -33,6 +33,8 @@
     &__text {
       font-family: Open Sans, sans-serif;
       line-height: 3vh;
+      white-space: pre-line;
+      
       @include themify($themes) {
         color: themed('textColorDefault');
       }
