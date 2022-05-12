@@ -3,7 +3,6 @@ import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
-import {ProductTable} from '../components/ProductTable/ProductTable';
 import {CloseProduct} from '../components/CloseProduct/CloseProduct';
 import {SelectUser} from '../components/ReviewProduct/SelectUser/SelectUser';
 import {ReviewUser} from '../components/ReviewProduct/ReviewUser/ReviewUser';
