@@ -3,10 +3,11 @@ import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
+import {ProductTable} from '../components/ProductTable/ProductTable';
 import {CloseProduct} from '../components/CloseProduct/CloseProduct';
 import {SelectUser} from '../components/ReviewProduct/SelectUser/SelectUser';
-import {ReviewUser} from '../components/ReviewProduct/ReviewUser/ReviewUser';
 
+import {ReviewUser} from '../components/ReviewProduct/ReviewUser/ReviewUser';
 import {router} from '../modules/router';
 import {mobile} from '../modules/mobile';
 
@@ -31,14 +32,14 @@ export class ProductView extends BaseView {
                 data: context.product.data,
                 listeners: context.product.listeners,
                 owner: context.product.owner
+            },
+            trendsList: {
+                title: 'Похожие товары',
+                text: 'Пока нет похожих товаров',
+                id: 'trends',
+                data: context.recList.data,
+                listeners: context.recList.listeners
             }
-            // trendsList: {
-            //     title: 'Похожие товары',
-            //     text: 'Пока нет похожих товаров',
-            //     id: 'trends',
-            //     data: context.recList.data,
-            //     listeners: context.recList.listeners
-            // }
         };
     }
 
@@ -225,8 +226,8 @@ export class ProductView extends BaseView {
         this.__boardSubView = new Board(parent);
         this.__boardSubView.render(this.__context);
 
-        // this.__trendsList = new ProductTable(parent);
-        // this.__trendsList.render(this.__context.trendsList);
+        this.__trendsList = new ProductTable(parent);
+        this.__trendsList.render(this.__context.trendsList);
         super.renderFooter();
     }
 }
